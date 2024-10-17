@@ -8,7 +8,7 @@ using TMPro;
 
 public class JetController : MonoBehaviourPunCallbacks, IPunObservable
 {
-
+    #region **변수 선언 파트 ...
     [SerializeField]
     private float speed = 10f;
 
@@ -59,7 +59,8 @@ public class JetController : MonoBehaviourPunCallbacks, IPunObservable
 
     public bool debug;
 
-    #region 박시몬 작업 - 속도제한 관련 변수
+    //부스터의 속도와 자유낙하 시 속도를 제한하여 충돌체와 강하게 부딪쳤을 때 발생할 수 있는 버그들(벽 뚫기, 끼임 등)을 방지하고자 했다.
+    #region **속도제한 관련 변수 ...
     [System.Serializable]
     private struct MaxSpeed
     {
@@ -79,6 +80,7 @@ public class JetController : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    //테스트 및 수정 편의성을 위해 유니티 인스펙터에서 최대속도를 그때그때 변경할 수 있도록 했다.
     [Header("Speed Limitation")]
     [SerializeField]
     private MaxSpeed maxSpeed;
@@ -87,12 +89,17 @@ public class JetController : MonoBehaviourPunCallbacks, IPunObservable
 
     #endregion
 
+    #endregion
+
     void Awake()
     {
+        //이펙트 리스트에 부스터 이펙트를 추가해준다.
         EffectList.Add(JetEffect_L);
         EffectList.Add(JetEffect_R);
         EffectList.Add(JetEffectLeg_L);
         EffectList.Add(JetEffectLeg_R);
+
+        //디버그 모드 시 무한부스터 유지
 		if (debug)
 		{
             step = 0f;
@@ -111,7 +118,8 @@ public class JetController : MonoBehaviourPunCallbacks, IPunObservable
 
         errorAudio = GetComponentInParent<AudioSource>();
 
-        //1P 2P 판별
+        // 1P 2P 판별
+        // 추후 1P2P 설정 바꿀 때 여기 바꾸면 됨
         if ((bool)PhotonNetwork.LocalPlayer.CustomProperties["isleft"]) //left
         {
             player = 1;
@@ -121,12 +129,13 @@ public class JetController : MonoBehaviourPunCallbacks, IPunObservable
             player = 2;
         }
 
-        //추후 1P2P 설정 바꿀 때 여기 바꾸면 됨
-        //제한속도 설정
-
+        //ragdollController 스크립트 등록
         ragdoll = GameManager.Instance.ragdollController;
     }
 
+
+    //코멘트 by 시몬 : 이거 왜 여러 개 만들었어...??
+    #region **부스터 에너지 관련 함수...
     public void unlimitedBooster()
     {
         step = 0f;
@@ -141,8 +150,9 @@ public class JetController : MonoBehaviourPunCallbacks, IPunObservable
     {
         step = 0.01f;
     }
+    #endregion
 
-    #region 박시몬 작업 - 함수
+    #region 박시몬 작업 - 함수...
 
     #region -----------이펙트 및 효과음 함수-----------
 
@@ -174,24 +184,28 @@ public class JetController : MonoBehaviourPunCallbacks, IPunObservable
     {
         foreach (GameObject effects in EffectList)
         {
+            //부스터가 하나라도 켜져있다면 사운드 재생
             if (effects.activeSelf)
             {
                 PlaySound();
                 return;
             }
         }
+        
+        //부스터가 모두 꺼져있다면 사운드 종료
         StopSound();
     }
 
+    //부스터 이펙트 OnOff 함수
     private void BoostOnOff(bool isOn, string hand_or_leg)
     {
         int hand_index, leg_index; //부스터 키고 꺼줄 이펙트 인덱스
-        if (player == 1) //1P일 때
+        if (player == 1) //1P일 때는 왼쪽
         {
             hand_index = 0;
             leg_index = 2;
         }
-        else //2P일 때
+        else //2P일 때는 오른쪽
         {
             hand_index = 1;
             leg_index = 3;
@@ -200,22 +214,22 @@ public class JetController : MonoBehaviourPunCallbacks, IPunObservable
         switch (hand_or_leg)
         {
             case "hand":
-                pv.RPC("EffectOff", RpcTarget.All, hand_index, isOn);
+                pv.RPC("EffectOnOff", RpcTarget.All, hand_index, isOn);
                 break;
             case "leg":
-                pv.RPC("EffectOff", RpcTarget.All, leg_index, isOn);
+                pv.RPC("EffectOnOff", RpcTarget.All, leg_index, isOn);
                 break;
         }
     }
 
     [PunRPC]
-    private void EffectOff(int index, bool onOff)
+    private void EffectOnOff(int index, bool onOff)
     {
         if (onOff)
         {
-            if (!EffectList[index].activeSelf)
+            if (!EffectList[index].activeSelf) //Off
             {
-                EffectList[index].SetActive(onOff);
+                EffectList[index].SetActive(onOff); //->On
             }
         }
         else
@@ -304,7 +318,7 @@ public class JetController : MonoBehaviourPunCallbacks, IPunObservable
 
     #region ---------이동 및 에너지 소비 함수---------
 
-        #region * 에너지 관련 함수
+        #region * 에너지 관련 함수...
     [PunRPC]
     void UseEnergy()
     {
@@ -319,10 +333,11 @@ public class JetController : MonoBehaviourPunCallbacks, IPunObservable
     }
         #endregion
 
-        #region *이동 함수
+        #region *이동 함수...
     [PunRPC]
     void Boost(Vector3 dir)
     {
+        //조종 가능한 상태라면
         if (ragdoll.CanControl)
         {
             body.AddForce(dir * speed * Time.fixedDeltaTime, ForceMode.Acceleration);
@@ -411,10 +426,11 @@ public class JetController : MonoBehaviourPunCallbacks, IPunObservable
 
         if (Input.GetMouseButton(0)) //좌클릭 입력됐을 때 & 좌클릭+스페이스 입력됐을 때는 여기 코드 실행
         {
+            //설산 맵 마지막 구간에서는 팔이 얼어붙어 팔 부스터 사용이 불가능함
             if (armBroken)
             {
                 BoostOnOff(false, "hand"); //팔 부스터 끄기
-                //소리 키기
+                //팔이 얼었을 때 좌클릭 하면 에러 효과음 재생
                 if (!errorAudio.isPlaying) { errorAudio.Play(); }
             }
             else
@@ -433,6 +449,8 @@ public class JetController : MonoBehaviourPunCallbacks, IPunObservable
             boostOn = false;
             BoostOnOff(false, "hand");
             BoostOnOff(false, "leg");
+
+            //1초가 지나기 전에는 에너지를 충전하지 않음
             timer += Time.deltaTime;
             if (timer >= 1f)
             {
@@ -440,8 +458,11 @@ public class JetController : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
         CheckSound();
+
+        //화면에 현재 에너지 잔량 표시
         text.text = _energy.ToString("0.00");
-        //부스터바
+
+        //부스터바 지속적으로 갱신
         Boostbar.value = _energy;
     }
 
@@ -453,6 +474,8 @@ public class JetController : MonoBehaviourPunCallbacks, IPunObservable
             pv.RPC("Boost", RpcTarget.AllViaServer, dir);
         }
         LimitSpeed();
+        //방향을 매전 0으로 초기화 해줘야 이후 새롭게 방향을 설정할 때 계산이 정상적으로 가능함.
+        //조이스틱이 중앙으로 다시 돌아오는 것과 비슷한 느낌
         dir = Vector3.zero;
     }
 

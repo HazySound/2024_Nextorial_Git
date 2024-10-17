@@ -50,6 +50,11 @@ MonoBehaviour:
   - SpringOnRPC
   - StackEnergy
   - UseEnergy
+  - EffectOnOff
+  - MoveHand_L
+  - MoveHand_R
+  - MoveLeg_L
+  - MoveLeg_R
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
