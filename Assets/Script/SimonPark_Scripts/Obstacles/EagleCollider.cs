@@ -29,11 +29,6 @@ public class EagleCollider : MonoBehaviour
         ragdoll = GameManager.Instance.ragdollController;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     private IEnumerator PlaySound()
     {
         source.Play();
