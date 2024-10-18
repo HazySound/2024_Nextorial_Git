@@ -22,26 +22,23 @@
    
    
 ## 📂 기여한 Script 기본 경로 및 클래스명
-**1. 캐릭터 조종 기본 경로:** 
-```
-\Assets\Script\SimonPark_Scripts\Controller\
-```
+**1. 캐릭터 조종 기본 경로:**   
+> [Assets/Script/SimonPark_Scripts/Audio&Subtitle/ ](https://github.com/HazySound/NotMyFallt_rework/tree/a195631fa3f6d54662002f1bf3020c216e39edd0/Assets/Script/SimonPark_Scripts/Audio%26Subtitle)   
+
 **팔다리 움직임 구현 :** PlayerController.cs   
 **이동 관련 기능들 구현 :** JetController.cs   
    
 ---
 **2. 음성/음악파일 재생 및 자막 출력 기본 경로 :** 
-```
-\Assets\Script\SimonPark_Scripts\Audio&Subtitle\
-```
+> [Assets/Script/SimonPark_Scripts/Controller/ ](https://github.com/HazySound/NotMyFallt_rework/tree/a195631fa3f6d54662002f1bf3020c216e39edd0/Assets/Script/SimonPark_Scripts/Controller)
+
 **음원 재생 구현 :** VoiceManager.cs   
 **자막 출력 구현 :** SubtitleManager.cs   
    
 ---
 **3. 함정 및 장애물 기본 경로 :** 
-```
-\Assets\Script\SimonPark_Scripts\Obstacles\
-```
+> [Assets/Script/SimonPark_Scripts/Obstacles/ ](https://github.com/HazySound/NotMyFallt_rework/tree/a195631fa3f6d54662002f1bf3020c216e39edd0/Assets/Script/SimonPark_Scripts/Obstacles)
+
 **얼음 발판 구현 :** CheckIce.cs, IceCube.cs   
 **팔 부스터 제한 구현** : ArmBrokenTrigger   
 **독수리 함정 구현 :** EagleShot.cs, EagleContainer.cs  (EagleCollider.cs의 경우 효과음 재생을 위한 충돌체 스크립트)   
