@@ -37,7 +37,7 @@
    
 ---
 **3. 함정 및 장애물 기본 경로 :** 
-> [Assets/Script/SimonPark_Scripts/Obstacles/ ](https://github.com/HazySound/NotMyFallt_rework/tree/a195631fa3f6d54662002f1bf3020c216e39edd0/Assets/Script/SimonPark_Scripts/Obstacles)
+> [Assets/Script/SimonPark_Scripts/Obstacles/ ](https://github.com/HazySound/NotMyFallt_rework/tree/a224575b93ab2888b521d891444da1dbb9b8530c/Assets/Script/SimonPark_Scripts/Obstacles)
 
 **얼음 발판 구현 :** CheckIce.cs, IceCube.cs   
 **팔 부스터 제한 구현** : ArmBrokenTrigger   
