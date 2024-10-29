@@ -4,7 +4,7 @@
 **Title :** NotMyFall-t   
 **Used tool :** Unity, Visual Studio 2019, GitHub, Discord   
 **Content :**   
->본 프로젝트는 일명 ‘항아리 게임’이라 불리는 <Getting Over It with Bennett Foddy> 와 <Only Up!> 과 같은 작품들과 유사한 장르의 플랫포머 멀티 게임으로, 두 명이 한 로봇의 좌, 우를 각각 조종하여 장애물을 피해 목적지까지 도달하는 게임입니다.   
+>본 프로젝트는 일명 ‘항아리 게임’이라 불리는 < Getting Over It with Bennett Foddy > 와 < Only Up! > 과 같은 작품들과 유사한 장르의 플랫포머 멀티 게임으로, 두 명이 한 로봇의 좌, 우를 각각 조종하여 장애물을 피해 목적지까지 도달하는 게임입니다.   
 >
 >각 플레이어는 자신이 담당하고 있는 반신의 손과 발에서 불꽃을 뿜어낼 수 있으며, 로봇은 그 추진력을 통해 비행합니다.
 >
